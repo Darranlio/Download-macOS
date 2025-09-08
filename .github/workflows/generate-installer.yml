@@ -30,7 +30,7 @@ env:
 jobs:
   build:
     runs-on: macos-latest
-    if: github.repository == 'Darranlio/Download-macOS'
+    # if: github.repository == 'Darranlio/Download-macOS'
     steps:
       - uses: actions/checkout@v4
       
