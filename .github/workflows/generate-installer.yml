@@ -45,7 +45,14 @@ jobs:
       # Download Installer
       - name: Download macOS Installer
         run: |
-          softwareupdate --fetch-full-installer --full-installer-version ${{ env.installer_version }}
+          echo "🎯 Trying to fetch full installer for version: ${{ env.installer_version }}"
+          softwareupdate --fetch-full-installer --full-installer-version ${{ env.installer_version }} || \
+          (
+            echo "⚠️ Exact version ${{ env.installer_version }} not found, retrying with major.minor..."
+            short_ver=$(echo "${{ env.installer_version }}" | cut -d. -f1-2)
+            echo "Retrying with version: $short_ver"
+            softwareupdate --fetch-full-installer --full-installer-version $short_ver
+          )
 
       # Generate Installer
       - if: github.event.inputs.file == 'dmg'
@@ -84,4 +91,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: macOS ${{ env.installer_name }}
-          path: "~/Desktop/${{ env.installer_name }}.${{ github.event.inputs.file }}"
+          path: "/Desktop/${{ env.installer_name }}.${{ github.event.inputs.file }}"
