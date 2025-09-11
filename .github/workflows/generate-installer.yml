@@ -10,7 +10,7 @@ on:
         options:
           - Sequoia v15
           - Sonoma v14
-          - Ventura v13
+          - Ventura v13.7.8
           - Monterey v12
       file:
         type: choice
